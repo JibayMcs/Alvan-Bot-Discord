@@ -2,6 +2,8 @@
 // https://discord.com/oauth2/authorize?client_id=823253773240893470&scope=bot&permissions=805314622
 
 //TODO accent code
+//Twitch recent follow, subscribe
+//Twitch chat in discord and vice versa
 
 const Discord = require('discord.js')
 const { token, prefix } = require("./config.json");
@@ -41,13 +43,11 @@ bot.on('message', async message => {
       .addField('Spotify', 'https://open.spotify.com/artist/25OslGicPT7wGn5Ovf4Uwx')
       .addField('Deezer', 'https://www.deezer.com/fr/artist/6257124')
       .addField('SoundCloud', 'https://soundcloud.com/alvan')
-	    .setTimestamp()
       message.channel.send(socialEmbed);
     }
 
     else if(command === 'hall') {
         const hallEmbed = new Discord.MessageEmbed()
-        .setTimestamp()
         .setColor('#0ec969')
         .setTitle("Hall of Fame")
         .setDescription("Retrouvez tous les talents de la communauté !")
@@ -57,8 +57,10 @@ bot.on('message', async message => {
 
     else if(command === 'royalexdr') {
       const royalexdrEmbed = new Discord.MessageEmbed()
-      .setTimestamp()
-      .setThumbnail('https://instagram.fcdg2-1.fna.fbcdn.net/v/t51.2885-19/s150x150/13395068_1000978916618113_1962319241_a.jpg?tp=1&_nc_ht=instagram.fcdg2-1.fna.fbcdn.net&_nc_ohc=WA0PqSvQnZ4AX-F32AE&ccb=7-4&oh=c34d754b6a05d60d2f5dd5c5b25e6ccd&oe=60814E03&_nc_sid=48a2a6')
+      .setColor('#8a3ab9')
+      .setAuthor('Alexandre Roy', 'https://instagram.fcdg2-1.fna.fbcdn.net/v/t51.2885-19/s150x150/13395068_1000978916618113_1962319241_a.jpg?tp=1&_nc_ht=instagram.fcdg2-1.fna.fbcdn.net&_nc_ohc=WA0PqSvQnZ4AX-F32AE&ccb=7-4&oh=c34d754b6a05d60d2f5dd5c5b25e6ccd&oe=60814E03&_nc_sid=48a2a6', 'https://instagram.com/royalexdr')
+      .setDescription('La Rochelle 🇨🇵\nroyalex.pro@gmail.com\nroyalexdr.tumblr.com')
+      .setImage('https://instagram.fcdg2-1.fna.fbcdn.net/v/t51.2885-15/e35/s1080x1080/122094886_920246628504862_3789101799645360850_n.jpg?tp=1&_nc_ht=instagram.fcdg2-1.fna.fbcdn.net&_nc_cat=110&_nc_ohc=lrZlQHu4jqAAX_yYps1&ccb=7-4&oh=cf61dfcf48f0cdab7b544ebbf9ed9f73&oe=608244A7&_nc_sid=4f375e', 'https://www.instagram.com/p/CGoABK3AqAG/')
       message.channel.send(royalexdrEmbed);
     }
 
