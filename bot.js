@@ -5,8 +5,9 @@
 //Twitch recent follow, subscribe
 //Twitch chat in discord and vice versa
 
-const Discord = require('discord.js')
-const { token, prefix } = require("./config.json");
+const Discord           = require('discord.js')
+const { token, prefix, url, accept, twitch_client_id,  } = require("./config.json");
+const request           = require('request');
 
 const bot = new Discord.Client()
 
@@ -29,8 +30,51 @@ bot.on('message', async message => {
     // Voice only works in guilds, if the message does not come from a guild,
     // we ignore it
     if (!message.guild) return;
+
+    if(command === 'stream') {
+      //Send message in specific channel
+      //message.guild.channels.cache.get('823970107008745522').send('hello');
+      
+      var options = {
+        url: url,
+        method: 'GET',
+        headers: {
+          'Client-ID': twitch_client_id,
+          'Accept': accept
+        }
+      };
+    
+      request(options, function (error, response, body) {
+        if (response && response.statusCode == 200) {
+          var data = JSON.parse(body);
+          if(data.stream !== null) {
+            const game = data.stream.game;
+            const viewers = data.stream.viewers;
+            const followers = data.stream.channel.followers;
+            const totalViews = data.stream.channel.views;
+            const previewImg = data.stream.preview.medium;
+            const title = data.stream.channel.status;
+            const streamStartedAt = data.stream.created_at;
+            const url = data.stream.channel.url;
+            const pictureProfile = data.stream.channel.logo;
+
+            const streamEmbed = new Discord.MessageEmbed()
+            .setAuthor(title, pictureProfile, url)
+            .setImage(previewImg)
+            .setTimestamp(streamStartedAt)
+            .addField('Viewers', viewers, true)
+            .addField('Followers', followers, true)
+            .addField('Vues totales', totalViews, true)
+            message.channel.send(streamEmbed);
+          }
+        }/* else {
+          console.log(JSON.parse(body));
+        }*/
+      });
+      
+    }
   
-    if(command === 'social') {
+    else if(command === 'social') {
       const socialEmbed = new Discord.MessageEmbed()
 	    .setColor('#0099ff')
 	    .setTitle('Réseaux Sociaux')
@@ -52,6 +96,7 @@ bot.on('message', async message => {
         .setTitle("Hall of Fame")
         .setDescription("Retrouvez tous les talents de la communauté !")
         .addField('!royalexdr', 'Graphiste de qualité premium !')
+        .addField('!jibaymcs', 'Homme à tout faire !')
         message.channel.send(hallEmbed);
     }
 
@@ -62,6 +107,15 @@ bot.on('message', async message => {
       .setDescription('La Rochelle 🇨🇵\nroyalex.pro@gmail.com\nroyalexdr.tumblr.com')
       .setImage('https://instagram.fcdg2-1.fna.fbcdn.net/v/t51.2885-15/e35/s1080x1080/122094886_920246628504862_3789101799645360850_n.jpg?tp=1&_nc_ht=instagram.fcdg2-1.fna.fbcdn.net&_nc_cat=110&_nc_ohc=lrZlQHu4jqAAX_yYps1&ccb=7-4&oh=cf61dfcf48f0cdab7b544ebbf9ed9f73&oe=608244A7&_nc_sid=4f375e', 'https://www.instagram.com/p/CGoABK3AqAG/')
       message.channel.send(royalexdrEmbed);
+    }
+
+    else if(command === 'jibaymcs') {
+      const jibaymcsEmbed = new Discord.MessageEmbed()
+      .setColor('#8a3ab9')
+      .setAuthor('Jibay Mcs', 'https://instagram.fcdg2-1.fna.fbcdn.net/v/t51.2885-19/s150x150/66174099_2380997361947207_5883414195411615744_n.jpg?tp=1&_nc_ht=instagram.fcdg2-1.fna.fbcdn.net&_nc_ohc=tmPtKvPR3W8AX_f8VeB&ccb=7-4&oh=f2b661b90d0afc981d03d168ed08a97c&oe=6084506E&_nc_sid=7bff83', 'https://instagram.com/jibaymcs')
+      .setDescription('Lumberjack 🌳🌲\nMountains 🗻\nClimbing 🐒\nMusic 🎶\nProgramming 💾')
+      .setImage('https://instagram.fcdg2-1.fna.fbcdn.net/v/t51.2885-15/e35/144159931_231147275217173_5338467382602461264_n.jpg?tp=1&_nc_ht=instagram.fcdg2-1.fna.fbcdn.net&_nc_cat=105&_nc_ohc=7VqCuwVj6mkAX8xrBvG&ccb=7-4&oh=5742c2a957aeae58ea59e40fb50f3af5&oe=6083B714&_nc_sid=4f375e', 'https://www.instagram.com/p/CKqwXQfHLPl/')
+      message.channel.send(jibaymcsEmbed);
     }
 
 
