@@ -6,7 +6,7 @@
 //Twitch chat in discord and vice versa
 
 const Discord           = require('discord.js')
-const { token, prefix, url, accept, twitch_client_id,  } = require("./config.json");
+const { token, prefix, url, accept, twitch_client_id  } = require("./config.json");
 const request           = require('request');
 
 const bot = new Discord.Client()
