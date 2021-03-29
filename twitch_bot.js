@@ -74,7 +74,7 @@ function onMessageHandler (target, context, msg, self) {
     console.log(`* Executed ${commandName} command`);
   }
   else {
-    console.log(target);
+    console.log(target + ': ' + commandName);
   }
 }
 
